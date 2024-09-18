@@ -17,7 +17,6 @@ import { ServiceAccount } from 'firebase-admin';
 
         return admin.initializeApp({
           credential: admin.credential.cert(serviceAccount),
-          databaseURL: 'https://your-project-id.firebaseio.com',
         });
       },
       inject: [ConfigService],

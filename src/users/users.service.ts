@@ -47,8 +47,11 @@ export class UserService {
         return "Actualizando usuario"
     }
 
-    deleteUser() {
-        return "Eliminando usuario"
+    async deleteUser(id: string) {
+        console.log(id)
+        //TODO: Logica para implementar eliminacion de foto
+        await this.firestore.collection("users").doc(id).delete();
+        return { id }
     }
 
 
