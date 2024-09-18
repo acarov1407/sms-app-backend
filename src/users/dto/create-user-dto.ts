@@ -9,6 +9,5 @@ export class CreateUserDTO {
     @IsString()
     @Length(10, 10)
     readonly phone: string;
-
     
 }

@@ -1,16 +1,17 @@
-import { Injectable, Inject } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import * as admin from "firebase-admin";
 import { CreateUserDTO } from "./dto/create-user-dto";
 import { User } from "./models/user-model";
+import { FirebaseService } from "src/firebase/firebase.service";
+import { UploadService } from "src/upload/upload.service";
 
 @Injectable()
 export class UserService {
 
     private firestore: admin.firestore.Firestore;
 
-    constructor(
-        @Inject('FIREBASE_ADMIN') private readonly firebaseApp: admin.app.App) {
-        this.firestore = this.firebaseApp.firestore();
+    constructor(private readonly firebaseService: FirebaseService, private readonly uploadService: UploadService) {
+        this.firestore = this.firebaseService.getFirestore();
     }
 
 
@@ -30,9 +31,9 @@ export class UserService {
         return usersQuery.docs.map(doc => User.fromFirestore(doc));
     }
 
-    async createUser(createUserDTO: CreateUserDTO) {
+    async createUser(createUserDTO: CreateUserDTO, imgFile: Express.Multer.File) {
 
-        const photoURL = ""; //Cambiar URL cuando habilite lo de usar imagenes
+        const photoURL = await this.uploadService.uploadImage(imgFile);
 
         const { username, phone } = createUserDTO;
         const user = new User("", username, phone, photoURL);
@@ -48,8 +49,6 @@ export class UserService {
     }
 
     async deleteUser(id: string) {
-        console.log(id)
-        //TODO: Logica para implementar eliminacion de foto
         await this.firestore.collection("users").doc(id).delete();
         return { id }
     }

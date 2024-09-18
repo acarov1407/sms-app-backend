@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { MessagingModule } from './messaging/messaging.module';
+import { FirebaseModule } from './firebase/firebase.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -9,7 +11,9 @@ import { MessagingModule } from './messaging/messaging.module';
       isGlobal: true
     }),
     UsersModule,
-    MessagingModule
+    MessagingModule,
+    FirebaseModule,
+    UploadModule,
   ],
 })
 export class AppModule {}
