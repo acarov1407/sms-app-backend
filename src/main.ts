@@ -13,6 +13,7 @@ async function bootstrap() {
     origin: configService.get<string>("FRONTEND_URL")
   });
 
+  app.setGlobalPrefix("api")
   app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(3000);
