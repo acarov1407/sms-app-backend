@@ -16,36 +16,36 @@ export class UploadService {
         this.bucket = this.configService.get<string>("FIREBASE_STORAGE_BUCKET");
     }
 
-     async uploadImage(file: Express.Multer.File): Promise<string> {
+    async uploadImage(file: Express.Multer.File): Promise<string> {
 
-         this.validateImage(file);
+        this.validateImage(file);
 
-         const fileName = `${uuidv4()}_${file.originalname}`;
-         const fileUpload = this.storage.bucket(this.bucket).file(fileName);
+        const fileName = `${uuidv4()}_${file.originalname}`;
+        const fileUpload = this.storage.bucket(this.bucket).file(fileName);
 
-         const stream = fileUpload.createWriteStream({
-             metadata: {
-                 contentType: file.mimetype,
-             },
-         });
+        const stream = fileUpload.createWriteStream({
+            metadata: {
+                contentType: file.mimetype,
+            },
+        });
 
-         return new Promise((resolve, reject) => {
-             stream.on("error", (error) => {
-                 return reject(`Error al subir el archivo: ${error.message}`);
-             });
+        return new Promise((resolve, reject) => {
+            stream.on("error", (error) => {
+                return reject(`Error al subir el archivo: ${error.message}`);
+            });
 
-             stream.on("finish", async () => {
-                 try {
-                     await fileUpload.makePublic();
-                     resolve(fileUpload.publicUrl());
-                 } catch (error) {
-                     reject(`Error al hacer público el archivo: ${error.message}`);
-                 }
-             });
+            stream.on("finish", async () => {
+                try {
+                    await fileUpload.makePublic();
+                    resolve(fileUpload.publicUrl());
+                } catch (error) {
+                    reject(`Error al hacer público el archivo: ${error.message}`);
+                }
+            });
 
-             stream.end(file.buffer);
-         });
-     }
+            stream.end(file.buffer);
+        });
+    }
 
     private validateImage(file: Express.Multer.File) {
 

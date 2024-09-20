@@ -7,7 +7,7 @@ export class CreateUserDTO {
     readonly username : string;
 
     @IsString()
-    @Length(10, 10)
+    @Length(12, 12)
     readonly phone: string;
     
 }

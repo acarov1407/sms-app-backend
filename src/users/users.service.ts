@@ -27,25 +27,30 @@ export class UserService {
     }
 
     async getUsers() {
-        const usersQuery = await this.firestore.collection("users").get();
+        const usersQuery = await this.firestore
+            .collection("users")
+            .orderBy("username", "desc")
+            .get();
+
         return usersQuery.docs.map(doc => User.fromFirestore(doc));
     }
 
-    async createUser(createUserDTO: CreateUserDTO, imgFile: Express.Multer.File) {
+    async createUser(createUserDTO: CreateUserDTO, photo: Express.Multer.File) {
 
-        const photoURL = await this.uploadService.uploadImage(imgFile);
+        let photoURL = "";
+
+        //La foto puede ser nula
+        if (photo) {
+            photoURL = await this.uploadService.uploadImage(photo);
+        }
 
         const { username, phone } = createUserDTO;
         const user = new User("", username, phone, photoURL);
 
         const doc = await this.firestore.collection("users").add(user.toFirestore());
-        
+
         return new User(doc.id, username, phone, photoURL);
 
-    }
-
-    updateUser() {
-        return "Actualizando usuario"
     }
 
     async deleteUser(id: string) {

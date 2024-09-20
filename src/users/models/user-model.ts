@@ -22,6 +22,7 @@ export class User {
             username: this.username,
             phone: this.phone,
             photoURL: this.photoURL,
+            createdAt: Date.now()
         };
     }
 }
