@@ -2,6 +2,11 @@
 
 Este es el backend de una aplicación web que permite enviar SMS a través de un panel de administración. El proyecto está desarrollado con **NestJS** y utiliza **Firebase Firestore** como base de datos, y **Altiria** para el envío de SMS.
 
+## Endpoints
+
+### Users
+<table><thead><tr><th>Método</th><th>Endpoint</th><th>Descripción</th><th>Body (JSON)</th><th>Response (JSON)</th></tr></thead><tbody><tr><td>GET</td><td><code>/api/users</code></td><td>Obtiene el listado de usuarios</td><td>N/A</td><td>Array de usuarios</td></tr><tr><td>POST</td><td><code>/api/users</code></td><td>Crea un nuevo usuario</td><td><code>{ "username": "string", "phone": "string", "photoURL": "string" }</code></td><td><code>{ "id": "string", "username": "string", "phone": "string", "photoURL": "string" }</code></td></tr></tbody></table>
+
 ## Requisitos
 
 Antes de comenzar, asegúrate de tener los siguientes requisitos instalados en tu sistema:
