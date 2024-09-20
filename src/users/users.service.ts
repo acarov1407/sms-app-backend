@@ -27,12 +27,14 @@ export class UserService {
     }
 
     async getUsers() {
+
         const usersQuery = await this.firestore
             .collection("users")
-            .orderBy("username", "desc")
+            .orderBy("createdAt", "desc")
             .get();
 
         return usersQuery.docs.map(doc => User.fromFirestore(doc));
+        
     }
 
     async createUser(createUserDTO: CreateUserDTO, photo: Express.Multer.File) {
@@ -45,17 +47,14 @@ export class UserService {
         }
 
         const { username, phone } = createUserDTO;
-        const user = new User("", username, phone, photoURL);
+        
+        const user = new User("", username, phone, photoURL, Date.now());
 
         const doc = await this.firestore.collection("users").add(user.toFirestore());
+        const docSnap = await doc.get();
+        
+        return User.fromFirestore(docSnap);
 
-        return new User(doc.id, username, phone, photoURL);
-
-    }
-
-    async deleteUser(id: string) {
-        await this.firestore.collection("users").doc(id).delete();
-        return { id }
     }
 
 

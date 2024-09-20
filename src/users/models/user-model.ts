@@ -4,7 +4,8 @@ export class User {
         public id: string,
         public username: string,
         public phone: string,
-        public photoURL: string
+        public photoURL: string,
+        public createdAt: number
     ) { }
 
     static fromFirestore(snapshot: FirebaseFirestore.DocumentSnapshot): User {
@@ -13,7 +14,8 @@ export class User {
             snapshot.id,
             data?.username,
             data?.phone,
-            data?.photoURL
+            data?.photoURL,
+            data?.createdAt
         );
     }
 
@@ -22,7 +24,7 @@ export class User {
             username: this.username,
             phone: this.phone,
             photoURL: this.photoURL,
-            createdAt: Date.now()
+            createdAt: this.createdAt,
         };
     }
 }

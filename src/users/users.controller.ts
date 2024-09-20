@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { UserService } from "./users.service";
 import { CreateUserDTO } from "./dto/create-user-dto";
 import { FileInterceptor } from "@nestjs/platform-express";
+
 
 @Controller("/users")
 export class UserController {
@@ -24,13 +25,6 @@ export class UserController {
  
         const user = await this.userService.createUser(createUserDTO, photo);
         return { id: user.id }
-    }
-
-
-    @Delete("/:id")
-    deleteUser(@Param("id") id: string) {
-        
-        return this.userService.deleteUser(id);
     }
 
 
